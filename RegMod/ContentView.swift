@@ -292,11 +292,11 @@ struct LoginView: View {
                 switch result {
                 case .success(let response):
                     if response.success == true {
-                        session.session = UserSession(username: username,
-                                                      tier: response.tier ?? 0,
-                                                      blocked: response.blocked ?? false,
-                                                      authenticated: true)
-                        session.save()
+                        session.setSession(
+                            username: username,
+                            tier: response.tier ?? 0,
+                            blocked: response.blocked ?? false
+                        )
                         dismiss()
                     } else {
                         errorMessage = response.message ?? "Authentication failed."
