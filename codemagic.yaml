@@ -1,0 +1,46 @@
+workflows:
+  tncheats-ios:
+    name: TnCheats Unsigned IPA for ESign
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+
+    environment:
+      xcode: latest
+
+    scripts:
+      - name: Build unsigned Release app
+        script: |
+          set -euo pipefail
+
+          rm -rf "$CM_BUILD_DIR/build"
+          mkdir -p "$CM_BUILD_DIR/build"
+
+          xcodebuild             -project "$CM_BUILD_DIR/RegMod.xcodeproj"             -scheme "RegMod"             -configuration Release             -sdk iphoneos             -derivedDataPath "$CM_BUILD_DIR/build/DerivedData"             CONFIGURATION_BUILD_DIR="$CM_BUILD_DIR/build/App"             CODE_SIGNING_ALLOWED=NO             CODE_SIGNING_REQUIRED=NO             CODE_SIGN_IDENTITY=""             build | xcpretty
+
+      - name: Package unsigned IPA for ESign
+        script: |
+          set -euo pipefail
+
+          APP_PATH="$(find "$CM_BUILD_DIR/build/App"             -maxdepth 1             -type d             -name "*.app"             -print -quit)"
+
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: No .app found"
+            echo "Contents of build directory:"
+            find "$CM_BUILD_DIR/build" -maxdepth 4 -print
+            exit 1
+          fi
+
+          echo "Found app: $APP_PATH"
+
+          rm -rf "$CM_BUILD_DIR/build/Payload"
+          mkdir -p "$CM_BUILD_DIR/build/Payload"
+
+          cp -R "$APP_PATH" "$CM_BUILD_DIR/build/Payload/TnCheats.app"
+
+          cd "$CM_BUILD_DIR/build"
+          /usr/bin/zip -qry "TnCheats-unsigned.ipa" Payload
+
+    artifacts:
+      - build/TnCheats-unsigned.ipa
+      - build/App/*.app
+      - /tmp/xcodebuild_logs/*.log
