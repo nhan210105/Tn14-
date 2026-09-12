@@ -34,10 +34,9 @@ C10000000000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buil
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-D10000000000000000000001 = {isa = PBXGroup; children = (D10000000000000000000002,D10000000000000000000003,D10000000000000000000004); sourceTree = "<group>"; };
+D10000000000000000000001 = {isa = PBXGroup; children = (D10000000000000000000002,D10000000000000000000003); sourceTree = "<group>"; };
 D10000000000000000000002 /* TnCheats */ = {isa = PBXGroup; children = (B10000000000000000000001,B10000000000000000000002,B10000000000000000000003,B10000000000000000000004,B10000000000000000000005,B10000000000000000000006,B10000000000000000000008,B10000000000000000000007); path = RegMod; sourceTree = "<group>"; };
 D10000000000000000000003 /* Products */ = {isa = PBXGroup; children = (B10000000000000000000009); name = Products; sourceTree = "<group>"; };
-D10000000000000000000004 /* Resources */ = {isa = PBXGroup; children = (B10000000000000000000007); name = Resources; path = Resources; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
